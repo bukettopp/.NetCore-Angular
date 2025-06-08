@@ -1,1 +1,45 @@
+Geleneksel Çok katmanlı Mimari :                     
+|Dal|                                         Katmanlar aeası sıkı bağımlılık mevcuttur.
+|Bl | Business                                Büyük ölçekli ve karmaşık uygulamalarda yetersizdir.
+|Pl| Presentation                             Veri/Data katmanı merkezdedir ! Böylece uygulama tasarımında verinin geliş tarzına bir bağımlılık oluşmaktadır.Veri erişim mantığının değişmesi ihtiyacında yüksek maliyet karşımıza çıkmaktadır.
 
+
+Onion Architecture
+
+Domain Katmanı (Domain Entities Katmanı,Core Katmanı) : 
+Merkezi katmandır.Entities,Value object,Enumaration,Exceptions(Entity ile ilgili exceptionlar)
+
+
+Repository & Service Interface / Core katmanı : Application katmanı
+
+Domain ile iş katmanı arasında soyutlama katmanıdır.
+Tüm servis arayüzleri (interfaceleri) burada tanımlanır.(IReposityory,IMailService)
+Domain katmanını referans eder.
+Bu katmanın amacı veri erişiminde gevşek bağlı (loose coupling) bir yaklaşım sergilemektir.
+DTO,ViewModel,Mapping,Validators,CQRS Pattern
+
+Onion Architecture da her katman kendinden önceki katmanı referans eder !!
+
+Persistence Katmanı :
+Veritabanı operasyonlarını/veri erişim mantığını yürüten katmandır 
+Application katmanındaki repository interface'lerin concrete nesneleri burada oluşturulacaktır.
+DbContext,Migrations,Configurations,Seeding,Repository Concrete class
+
+Infrastructure Katmanı :
+Persistence katmanı ile bütünleşebilen bir katmandır diyebiliriz. Nihayetinde her ikiside iş/business katmanıdır.
+Sadece Persistencedan farkı veritabanının dışındaki operasyonları/servisleri/işlemleri yürüttümüz katmandır.
+Veritabanından olan veri erişimi dışındaki tüm servisler bu katmanda inşa edilir.
+Email/Sms Service,Notification,Payment
+
+
+Presentation Katmanı :
+Kullanıcının uygulamayla iletişime geçtiği katmandır.
+
+Notlar :
+1.Her katman sadece bir iç dairedeki katmana bağımlılık göstermektedir.
+2.Bağlılık tek yönlüdür,içe doğrudur.
+3.Herhangi bir katmanda yapılan değişiklik içe doğru olan katmanını değil sadece dışa doğru olan katmanını etkiler.
+4.Geleneksel mimarinin aksine veri katmanı (Persistence) en iç katman olarak değil, en dış katman olarak belirlenmiştir.
+Böylece uygulamada verinin nerden geldiğinden bağımsız olarak geliştirme yapabilmekteyiz.
+
+ONION ARCHITECTURE BİR CLEAN ARCHITECTURE PATTER'DİR !!
